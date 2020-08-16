@@ -1,0 +1,120 @@
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
+#include <locale>
+
+using namespace std;
+
+bool endGame = false;
+string input = "";
+
+class item {
+public:
+  string iName;
+
+  string name() {
+    return iName;
+  }
+};
+
+class Room {
+public:
+  string name;
+  vector<item> items;
+
+  void addItem(string itemName) {
+    //items.push_back(itemName);
+  }
+
+  void removeItem(string itemName) {
+    if (items.size() == 0) {
+      cout << "No Items in room!";
+    }
+
+    for (int index = 0; index < items.size(); index++) {
+      if (items.at(index).name() == itemName) {
+	items.erase(items.begin()+index-1);
+      }
+    }
+  }
+
+  void printItem() {
+    if (items.size() == 0) {
+      cout << "No Items in room!" << endl;
+    }
+    
+    for (int index = 0; index < items.size(); index++) {
+      cout << items.at(index).name();
+    }
+  }
+};
+
+void printCommands() {
+  cout << "Your Commands are: help, go, inventory, get, drop, and quit." << endl;
+}
+
+void help() {
+  cout << "This is the Zuul Game!" << endl;
+  cout << "Wander around and find all 5 items!" << endl;
+  printCommands();
+}
+
+void go() {}
+void printInventory() {}
+void getItem() {}
+void dropItem() {}
+
+bool commander = false;
+
+bool processCommand() {
+  cout << "> ";
+  cin >> input;
+  
+  string command1 = "";
+  string command2 = "";
+
+  istringstream ss(input);
+  
+  
+  while (ss) {
+    cout << "bool: " << commander << endl;
+    if (commander == false) {
+      ss >> command1;
+      cout << "Commmand1: " << command1 << endl;
+    } else {
+      ss >> command2;
+      cout << "Command2: " << command2 << endl;
+    }
+    commander = !commander;
+  }
+  
+  
+  if (command1 == "help") {
+    help();
+  } else if (command1 == "go") {
+    go();
+  } else if (command1 == "quit") {
+    return true;
+  } else if (command1 == "inventory") {
+    printInventory();
+  } else if (command1 == "get") {
+    getItem();
+  } else if (command1 == "drop") {
+    dropItem();
+  } else {
+    cout << "I don't know what you mean! " << endl << endl;
+  }
+  return false;
+}
+
+Room currentRoom;
+
+int main() {
+  help();
+
+  while (!endGame) {
+    endGame = processCommand();
+  }
+  
+  return 0;
+}
